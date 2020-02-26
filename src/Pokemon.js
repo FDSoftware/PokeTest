@@ -2,19 +2,27 @@
 import React, { Component, PropTypes, useEffect } from 'react'
 //PokeAPI
 import GetPokemon from './saga/GetPokemon'
+
 //ReactUI
 import {
   Card, CardContent,
   Button, Chip, CardActions,
   List, Divider, ButtonGroup
 } from '@material-ui/core';
+
 import { makeStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
+
+// Tabla:
+
+import {
+  Table,TableBody,TableRow,TableCell
+}from '@material-ui/core';
+
+//Modal:
+
+import {
+  Modal
+}from '@material-ui/core';
 
 //MaterialUI iconos:
 
@@ -36,14 +44,40 @@ const useStyles = makeStyles(theme => ({
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
   },
+  root: {
+    width: 400,
+    padding: theme.spacing(2, 4, 3),
+  }
 }));
 
 const PokeModal = (url) => {
+  const classes = useStyles();
+  const [open, setOpen] = React.useState(true);
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   let mypoke = GetPokemon(url).then(
-    () => {
-      alert();
+    (m) => {
+      console.log(m.data.name);
+      return(
+      <Modal
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
+        open={open}
+        onClose={handleClose}
+      >
+        <div className={classes.paper}>
+          <h2 id="simple-modal-title">Text in a modal</h2>
+          <p id="simple-modal-description">
+            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+          </p>
+        </div>
+      </Modal>);
+     // alert();
     }
   )
+  return (<div></div>);
 }
 
 
@@ -52,21 +86,22 @@ const Pokemon = ({ value, onIncrement, onDecrement, GETPK }) => {
     onIncrement();
   }, []);
 
+const classes = useStyles();
   return (
-    <Card>
+    <Card className={classes.root}>
       <CardContent>
         <Table>
           <TableBody>
             {
               value.getState()
                 .pokemons.map(
-                  (pk, index, array) => {
+                  (pk, index) => {
                       return (
-                        <TableRow>
+                        <TableRow key={index}>
                           <TableCell 
                             key={index} 
                             onClick={() => {
-                            PokeModal(array[index - 1].url);
+                            PokeModal(pk.url);
                           }}
                           >
                             {pk.name}

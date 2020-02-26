@@ -14,8 +14,10 @@ import { CssBaseline } from '@material-ui/core';
 //Componentes para UI:
 import Header from './components/Header';
 
+import { makeStyles } from '@material-ui/core/styles';
 
 const sagaMiddleware = createSagaMiddleware();
+
 
 const store = createStore(
   reducer,
@@ -25,9 +27,10 @@ sagaMiddleware.run(rootSaga)
 
 const action = type => store.dispatch({ type })
 
+
 function render() {
   ReactDOM.render(
-    <div>
+    <div >
       <CssBaseline />
       <Header/>
       <Pokemon
