@@ -1,7 +1,9 @@
-import { put, takeEvery, call, select } from 'redux-saga/effects'
+import { put, takeEvery, call, select ,delay} from 'redux-saga/effects'
 import GetPokemon from './GetPokemon';
 
 function* NextPoke() {
+  yield put({ type: 'LOAD'});
+  yield delay(1000);
   let state = yield select();
   console.log("Obteniendo pokemons de pokeAPI");
   const myPK = yield call(GetPokemon, state.nexpag);
@@ -15,6 +17,7 @@ function* NextPoke() {
     });
     yield put({ type: 'INCREMENT' });
   }
+  yield put({ type: 'LOAD'});
 }
 
 export default function* watchNextPoke() {

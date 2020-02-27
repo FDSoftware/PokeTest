@@ -4,7 +4,11 @@ const defaultSate = {
   nexpag: "https://pokeapi.co/api/v2/pokemon",
   prepag: "",
   pokemons : [],
-  randPK: []
+  randPK: [],
+  modal: false,
+  url: '',
+  pk:[],
+  isLoading: true
 }
 
 export default function counter(state = defaultSate, action) {
@@ -29,6 +33,28 @@ export default function counter(state = defaultSate, action) {
           prepag: action.prev,
           pokemons: action.text
         }
+    case 'PKURL':
+      console.log(action.url);
+      return {
+        ...state,
+        url: action.url,
+      }
+    case 'PKMODAL':
+      return{
+      ...state,
+      modal: !state.modal
+
+    }
+    case 'NEWP2K2':
+      return{
+        ...state,
+        pk : action.payload
+      }
+    case 'LOAD':
+      return{
+        ...state,
+        isLoading : !state.isLoading
+      }
     default:
       console.log(action)
       return state;

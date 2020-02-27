@@ -7,14 +7,13 @@ import createSagaMiddleware from 'redux-saga'
 import Pokemon from './Pokemon'
 import reducer from './reducers'
 import { rootSaga } from './saga'
-
+import Loader from './components/loader'
 //ReactUI
 import { CssBaseline } from '@material-ui/core';
 
 //Componentes para UI:
 import Header from './components/Header';
 
-import { makeStyles } from '@material-ui/core/styles';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -27,19 +26,32 @@ sagaMiddleware.run(rootSaga)
 
 const action = type => store.dispatch({ type })
 
+function App() {
+  return (
+    <div>
+      {store.getState().isLoading ?
+        <div>
+          <Loader />
+        </div> : <div></div>
+      }
+        <CssBaseline />
+
+        <Header />
+        <Pokemon
+          value={store}
+          onIncrement={() => {
+            action('MOREPOKE')
+          }}
+          onDecrement={() => action('MINUSPOKE')}
+          GETPK={() => action('NEWPOKE')}
+        />
+    </div>
+  )
+}
 
 function render() {
-  ReactDOM.render(
-    <div >
-      <CssBaseline />
-      <Header/>
-      <Pokemon
-        value={store}
-        onIncrement={() => action('MOREPOKE')}
-        onDecrement={() => action('MINUSPOKE')}
-        GETPK={() => action('NEWPOKE')}
-      />
-    </div>,
+  ReactDOM.render(<App />
+    ,
     document.getElementById('root')
   )
 }

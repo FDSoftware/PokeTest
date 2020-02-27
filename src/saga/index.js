@@ -2,7 +2,7 @@ import { put, takeEvery, call, select, all } from 'redux-saga/effects'
 import axios from 'axios';
 import watchNextPoke from './NextPoke';
 import watchPrevPoke from './PrevPoke';
-
+import watchModalPoke from './ModalPoke';
 function GetPokemon (url){
     return axios.request({
         method: 'get',
@@ -34,7 +34,8 @@ export function* rootSaga() {
     yield all([
       watchPrevPoke(),
       watchNextPoke(),
-      watchPokeAsync()
+      watchPokeAsync(),
+      watchModalPoke()
     ])
   }
   

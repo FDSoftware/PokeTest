@@ -1,7 +1,7 @@
 import React from 'react'
 
 //ReactUI
-import { AppBar, Typography, CssBaseline } from '@material-ui/core';
+import { AppBar, Typography, Toolbar} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
@@ -16,15 +16,16 @@ const useStyles = makeStyles(theme => ({
       flexGrow: 1,
     },
   }));
-  const Header = () =>{
+  const Header = (props) =>{
     const SHeader = useStyles();
 
     return(
         <div className={SHeader.root}>
-            <AppBar position="static">
+            <AppBar position="fixed">
+            <Toolbar>
             <Typography className={SHeader.title} variant="h6" color="inherit">
                 Pokedex
-            </Typography>
+            </Typography></Toolbar>
             </AppBar>
         </div>
     );

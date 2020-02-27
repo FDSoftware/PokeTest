@@ -1,34 +1,24 @@
 /*eslint-disable no-unused-vars */
 import React, { Component, PropTypes, useEffect } from 'react'
-//PokeAPI
-import GetPokemon from './saga/GetPokemon'
 
 //ReactUI
 import {
   Card, CardContent,
   Button, Chip, CardActions,
-  List, Divider, ButtonGroup
 } from '@material-ui/core';
 
 import { makeStyles } from '@material-ui/core/styles';
 
 // Tabla:
-
 import {
-  Table,TableBody,TableRow,TableCell
-}from '@material-ui/core';
-
-//Modal:
-
-import {
-  Modal
-}from '@material-ui/core';
+  Table, TableBody, TableRow, TableCell
+} from '@material-ui/core';
 
 //MaterialUI iconos:
 
 import BookIcon from '@material-ui/icons/Book';
 //Modal:
-
+import PokeModal from './PokeModal'
 let modal = false;
 const ModalToggle = () => {
   modal = !modal;
@@ -45,76 +35,64 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(2, 4, 3),
   },
   root: {
-    width: 400,
+    width: 'auto',
     padding: theme.spacing(2, 4, 3),
+    marginTop: '20px'
   }
 }));
 
-const PokeModal = (url) => {
-  const classes = useStyles();
-  const [open, setOpen] = React.useState(true);
-  const handleClose = () => {
-    setOpen(false);
-  };
 
-  let mypoke = GetPokemon(url).then(
-    (m) => {
-      console.log(m.data.name);
-      return(
-      <Modal
-        aria-labelledby="simple-modal-title"
-        aria-describedby="simple-modal-description"
-        open={open}
-        onClose={handleClose}
-      >
-        <div className={classes.paper}>
-          <h2 id="simple-modal-title">Text in a modal</h2>
-          <p id="simple-modal-description">
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-          </p>
-        </div>
-      </Modal>);
-     // alert();
-    }
-  )
-  return (<div></div>);
+const handleModal = (pk) => {
+  console.log(pk);
 }
 
-
 const Pokemon = ({ value, onIncrement, onDecrement, GETPK }) => {
+
   useEffect(() => {
-    onIncrement();
+    value.dispatch({ type: 'MOREPOKE'});
+    value.dispatch({ type: 'LOAD'});
   }, []);
 
-const classes = useStyles();
+  const classes = useStyles();
   return (
     <Card className={classes.root}>
       <CardContent>
         <Table>
           <TableBody>
-            {
-              value.getState()
-                .pokemons.map(
-                  (pk, index) => {
-                      return (
-                        <TableRow key={index}>
-                          <TableCell 
-                            key={index} 
-                            onClick={() => {
-                            PokeModal(pk.url);
-                          }}
-                          >
-                            {pk.name}
-                          </TableCell>
+            {value.getState().pokemons.map(
+              (pk, index) => {
+                return (
+                  <TableRow key={index}>
+                    <TableCell
+                      key={index}
+                        className={classes.buttons}
+                        onClick={
+                          () => {
+                            if(!value.getState().isLoading){
+                              value.dispatch({ type: 'LOAD'});
+                              value.dispatch({type: 'PKURL', url:pk.url});
+                              value.dispatch({ type: 'MODALPK2'});
+                              value.dispatch({ type: 'LOAD'});
+                            }
+                          }
+                        }
+                    >
+                <Button disabled={value.getState().isLoading}>{pk.name}</Button>
 
-                        </TableRow>
-                      );
-                    
-                  })
+                    </TableCell>
+
+                  </TableRow>
+                );
+
+              })
             }
           </TableBody>
         </Table>
+        {/* Modal: */}
+        <PokeModal store={value}></PokeModal>
       </CardContent>
+
+            {/* Botones de la card: */}
       <CardActions>
         <Button onClick={onDecrement}>Anterior</Button>
         <Chip
@@ -124,6 +102,8 @@ const classes = useStyles();
         />
         <Button onClick={onIncrement} >Siguiente</Button>
       </CardActions>
+
+
     </Card>
   );
 }
