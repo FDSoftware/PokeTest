@@ -9,12 +9,12 @@ import reducer from './reducers'
 import { rootSaga } from './saga'
 import Loader from './components/loader'
 //ReactUI
-import { CssBaseline } from '@material-ui/core';
+//import { CssBaseline } from '@material-ui/core';
 
 //Componentes para UI:
 import Header from './components/Header';
 
-
+import Grid from '@material-ui/core/Grid';
 const sagaMiddleware = createSagaMiddleware();
 
 
@@ -34,17 +34,24 @@ function App() {
           <Loader />
         </div> : <div></div>
       }
-        <CssBaseline />
+      {/*<CssBaseline />*/}
 
-        <Header />
-        <Pokemon
-          value={store}
-          onIncrement={() => {
-            action('MOREPOKE')
-          }}
-          onDecrement={() => action('MINUSPOKE')}
-          GETPK={() => action('NEWPOKE')}
-        />
+      <Header />
+      <Grid container
+        justify="center"
+        alignItems="center"
+        direction="column">
+        <Grid item xs={12} sm={4}>
+          <Pokemon
+            value={store}
+            onIncrement={() => {
+              action('MOREPOKE')
+            }}
+            onDecrement={() => action('MINUSPOKE')}
+            GETPK={() => action('NEWPOKE')}
+          />
+        </Grid>
+      </Grid>
     </div>
   )
 }
