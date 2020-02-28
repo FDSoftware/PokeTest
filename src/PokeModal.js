@@ -61,7 +61,7 @@ export default function SimpleModal({store}) {
                  <Grid container
                   alignItems="center"
                  >
-            <h2  className="TPokemon" >{store.getState().pk.name}</h2>
+            <h2  className="TPokemon" >{store.getState().pk.name}:</h2>
           </Grid>
           <Grid item  >
             <IMGContainer

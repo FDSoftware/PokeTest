@@ -18,6 +18,7 @@ function* NextPoke() {
     yield put({ type: 'INCREMENT' });
   }
   yield put({ type: 'LOAD'});
+  window.scrollTo(0, 0); 
 }
 
 export default function* watchNextPoke() {

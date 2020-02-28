@@ -20,6 +20,7 @@ function* PrevPoke() {
         }
     }
     yield put({ type: 'LOAD'});
+    window.scrollTo(0, 0); 
 }
 
 export default function* watchPrevPoke() {
