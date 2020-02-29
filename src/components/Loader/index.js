@@ -1,6 +1,5 @@
 /*eslint-disable no-unused-vars */
-import React, { Component, PropTypes, useEffect } from 'react'
-import CircularProgress from '@material-ui/core/CircularProgress';
+import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import './loader.css';
 //estilo Loader:
@@ -16,9 +15,11 @@ const useStyles = makeStyles(theme => ({
     
 }));
 
-export default function Loader({store}) {
+export default function Loader() {
     const myStyle = useStyles();
-            return<div className={myStyle.root}>
-                <div className="loader"/>
-            </div>
+    return(
+        <div className={myStyle.root}>
+            <div className="loader"/>
+        </div>
+    )
 }
