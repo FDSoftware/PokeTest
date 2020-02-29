@@ -34,7 +34,7 @@ function App() {
 
 			<Header />
 			<Grid container justify="center" alignItems="center" direction="column">
-				<Grid item xs={12} sm={4}>
+				<Grid item xs={12} sm={6} >
 					<Pokemon
 						value={store}
 						onIncrement={() => {
