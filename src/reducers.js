@@ -33,10 +33,10 @@ export default function counter(state = defaultSate, action) {
 				pokemons: action.text,
 			};
 		case "PKURL":
-			console.log(action.url);
+			console.log(action.payload);
 			return {
 				...state,
-				url: action.url,
+				url: action.payload,
 			};
 		case "PKMODAL":
 			return {

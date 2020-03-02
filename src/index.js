@@ -1,25 +1,26 @@
-//import "babel-polyfill"
-
+// React / Redux / Saga:
 import React from "react";
 import ReactDOM from "react-dom";
+
 import { createStore, applyMiddleware } from "redux";
+
 import createSagaMiddleware from "redux-saga";
-import Pokemon from "./components/Pokemon";
 import reducer from "./reducers";
 import { rootSaga } from "./saga";
-import Loader from "./components/Loader";
+
 //ReactUI
+import Grid from "@material-ui/core/Grid";
 
 //Componentes para UI:
 import Header from "./components/Header";
+import Pokemon from "./components/Pokemon";
+import Loader from "./components/Loader";
 
-import Grid from "@material-ui/core/Grid";
+// Redux / Saga init
 const sagaMiddleware = createSagaMiddleware();
-
 const store = createStore(reducer, applyMiddleware(sagaMiddleware));
 sagaMiddleware.run(rootSaga);
-
-const action = type => store.dispatch({ type });
+const action = (type, payload) => store.dispatch({ type, payload });
 
 function App() {
 	return (
@@ -36,12 +37,8 @@ function App() {
 			<Grid container justify="center" alignItems="center" direction="column">
 				<Grid item xs={12} sm={6} >
 					<Pokemon
-						value={store}
-						onIncrement={() => {
-							action("MOREPOKE");
-						}}
-						onDecrement={() => action("MINUSPOKE")}
-						GETPK={() => action("NEWPOKE")}
+						store={store}
+						action={action}
 					/>
 				</Grid>
 			</Grid>

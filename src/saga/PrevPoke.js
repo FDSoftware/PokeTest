@@ -9,7 +9,6 @@ function* PrevPoke() {
         console.log("Obteniendo pokemons de pokeAPI");
         const myPK = yield call(GetPokemon, state.prepag);
         if (myPK) {
-            // console.log(myPK.data.results);
             yield put({
                 type: 'NEWPK',
                 text: myPK.data.results,

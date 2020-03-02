@@ -1,4 +1,3 @@
-/*eslint-disable no-unused-vars */
 import React, { useEffect } from "react";
 
 // ReactUI
@@ -32,10 +31,10 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 
-const Pokemon = ({ value, onIncrement, onDecrement, GETPK }) => {
+const Pokemon = ({ store, action }) => {
 	useEffect(() => {
-		value.dispatch({ type: "MOREPOKE" });
-		value.dispatch({ type: "LOAD" });
+		action('MOREPOKE');
+		action('LOAD');
 	}, []);
 
 	const classes = useStyles();
@@ -44,22 +43,22 @@ const Pokemon = ({ value, onIncrement, onDecrement, GETPK }) => {
 			<CardContent>
 				<Table>
 					<TableBody>
-						{value.getState().pokemons.map((pk, index) => {
+						{store.getState().pokemons.map((pk, index) => {
 							return (
 								<TableRow key={index}>
 									<TableCell
 										key={index}
 										className={classes.buttons}
 										onClick={() => {
-											if (!value.getState().isLoading) {
-												value.dispatch({ type: "LOAD" });
-												value.dispatch({ type: "PKURL", url: pk.url });
-												value.dispatch({ type: "MODALPK2" });
-												value.dispatch({ type: "LOAD" });
+											if (!store.getState().isLoading) {
+												action('LOAD');
+												action('PKURL', pk.url);
+												action('MODALPK2');
+												action('LOAD');
 											}
 										}}
 									>
-										<Button disabled={value.getState().isLoading}>{pk.name}</Button>
+										<Button disabled={store.getState().isLoading}>{pk.name}</Button>
 									</TableCell>
 								</TableRow>
 							);
@@ -67,14 +66,14 @@ const Pokemon = ({ value, onIncrement, onDecrement, GETPK }) => {
 					</TableBody>
 				</Table>
 				{/* Modal: */}
-				<PokeModal store={value}></PokeModal>
+				<PokeModal store={store}></PokeModal>
 			</CardContent>
 
 			{/* Botones de la card: */}
 			<CardActions>
-				<Button onClick={onDecrement}>Anterior</Button>
-				<Chip avatar={<BookIcon />} label={value.getState().pag} color="primary" />
-				<Button onClick={onIncrement}>Siguiente</Button>
+				<Button onClick={() => action('MINUSPOKE') }>Anterior</Button>
+				<Chip avatar={<BookIcon />} label={store.getState().pag} color="primary" />
+				<Button onClick={() => action('MOREPOKE') }>Siguiente</Button>
 			</CardActions>
 		</Card>
 	);
